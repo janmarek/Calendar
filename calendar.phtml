@@ -1,0 +1,50 @@
+{snippet calendar}
+<p><a href="{link this day => null, month => $prevMonth, year => $prevYear, show => null}">Prev</a> |
+
+{if $month == $currentMonth && $year == $currentYear}
+	<strong>{$month} / {$year}</strong>
+{else}
+	<a href="{link this day => null, month => null, year => null, show => null}">{$month} / {$year}</a>
+{/if}
+
+| <a href="{link this day => $day, month => $nextMonth, year => $nextYear, show => null}">Next</a></p>
+
+<table>
+<tr>
+	<th>Po</th>
+	<th>Út</th>
+	<th>St</th>
+	<th>Čt</th>
+	<th>Pá</th>
+	<th>So</th>
+	<th>Ne</th>
+</tr>
+<tr>
+	{for $weekDay = 0; $weekDay < $firstDay; $weekDay++}
+		<td>&nbsp;</td>
+	{/for}
+	
+	{for $day = 1; $day <= $daysInMonth; $day++}
+		{if $weekDay % 7 == 0}
+			</tr><tr>
+		{/if}
+
+		<td class="{if isset($events[$day])}ui-state-highlight{else}ui-state-default{/if}">
+			{if isset($events[$day])}<a href="{link this day => $day, month => $month, year => $year, show => 'day'}" title="{$events[$day]}">{/if}
+			{if $day == $currentDay && $month == $currentMonth && $year == $currentYear}
+				<strong>{$day}</strong>
+			{else}
+				{$day}
+			{/if}
+			{if isset($events[$day])}</a>{/if}
+		</td>
+		
+		{? $weekDay++}
+	{/for}
+
+	{for $i = $weekDay; $i % 7 !== 0; $i++}
+		<td>&nbsp;</td>
+	{/for}
+</tr>
+</table>
+{/snippet}
